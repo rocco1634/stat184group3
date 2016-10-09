@@ -31,14 +31,21 @@ data("OrdwaySpeciesNames")
 ###Task 1
 How many different species including mis-spellings are in the data?
 ```{r task1}
-summarise(OrdwayBirds2, n_distinct(SpeciesName))
-summarise(OrdwaySpeciesNames, n_distinct(SpeciesName))
+total_different_species <- 
+  summarise(OrdwayBirds2, total_species = n_distinct(SpeciesName), index = 1)
+distinct_different_species <- 
+  summarise(OrdwaySpeciesNames, total_species_distinct = n_distinct(SpeciesNameCleaned, na.rm = TRUE), index = 1)
+
+Comparison_species_count <-
+  left_join(total_different_species,distinct_different_species)
+Comparison_species_count %>%
+  select(total_species,total_species_distinct)
 ```
 OrdwayBirds has 275 different species including mis-spellings
 
-OrdwaySpeciesNames has 251 distinct species names
+OrdwaySpeciesNames has 108 distinct species names
 
-Therefore there are 275-251 = 24 misspellings
+Therefore there are 275-108 = 167 misspellings
 
 ###Task 2
 ```{r task2}
@@ -76,7 +83,7 @@ ggplot(data=ByMonth,aes(x=reorder(Month,Month),y=Count ))+geom_bar(stat='identit
 
 ```
 
-* The Black-capped Chickadee is the only species present year round
+* The Black-capped Chickadee and arguably the American Goldfinsh are present year round.
 * Migratory Species: Field Sparrow, Slate-colored Junco, and Tree Swallow
 * American Goldflinch(October), Black-capped Chickadee (November), Field Sparrow(May), Slate-colored Junco(October), Tree Swallow(March)
-* American Foldfinch, Black-capped Chickadee, Field Sparrow, Slate-colored Junco, Tree Swallow
+* American Goldfinch, Black-capped Chickadee, Field Sparrow, Slate-colored Junco, Tree Swallow are all present in good numbers for at least 6 months.
